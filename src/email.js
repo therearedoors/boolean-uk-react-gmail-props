@@ -22,6 +22,6 @@ export const Email = props => {
       />
     </div>
     <div className="sender">{email.sender}</div>
-    <div className="title">{email.title}</div>
+    <div className="title" onClick = {() => props.viewEmail(email)}>{email.title}</div>
   </li>
 }

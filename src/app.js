@@ -3,6 +3,7 @@ import { useState } from 'react'
 import initialEmails from './data/emails'
 
 import {Emails} from './emails'
+import {CurrentEmail} from './currentEmail'
 
 import './styles/app.css'
 
@@ -14,15 +15,21 @@ function App() {
   const [emails, setEmails] = useState(initialEmails)
   const [hideRead, setHideRead] = useState(false)
   const [currentTab, setCurrentTab] = useState('inbox')
+  const [currentEmail,setCurrentEmail] = useState(null)
 
   const toggleStar = targetEmail => {
-    const updatedEmails = emails.map(email => email.id === targetEmail.id ? { ...email, starred: !email.starred } : email)
+    const updatedEmails = fred => fred.map(email => email.id === targetEmail.id ? { ...email, starred: !email.starred } : email)
     setEmails(updatedEmails)
   }
 
   const toggleRead = targetEmail => {
-    const updatedEmails = emails.map(email => email.id === targetEmail.id?{ ...email, read: !email.read }:email)
+    const updatedEmails = emails => emails.map(email => email.id === targetEmail.id?{ ...email, read: !email.read }:email)
     setEmails(updatedEmails)
+  }
+
+  const viewEmail = targetEmail => {
+    setCurrentTab("email")
+    setCurrentEmail(targetEmail)
   }
 
   const unreadEmails = emails.filter(email => !email.read)
@@ -82,7 +89,7 @@ function App() {
         </ul>
       </nav>
       <main className="emails">
-        <Emails emails={filteredEmails} toggleStar={toggleStar} toggleRead={toggleRead}/>
+        {currentTab === "email" ? <CurrentEmail email={currentEmail} returnToInbox={() => setCurrentTab("inbox")}/> : <Emails emails={filteredEmails} toggleStar={toggleStar} toggleRead={toggleRead} viewEmail={viewEmail}/>}
       </main>
     </div>
   )
