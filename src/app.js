@@ -4,6 +4,7 @@ import initialEmails from './data/emails'
 
 import {Emails} from './emails'
 import {CurrentEmail} from './currentEmail'
+import {Searchbar} from './Searchbar'
 
 import './styles/app.css'
 
@@ -16,6 +17,7 @@ function App() {
   const [hideRead, setHideRead] = useState(false)
   const [currentTab, setCurrentTab] = useState('inbox')
   const [currentEmail,setCurrentEmail] = useState(null)
+  const [searchInput,setSearchInput] = useState('')
 
   const toggleStar = targetEmail => {
     const updatedEmails = fred => fred.map(email => email.id === targetEmail.id ? { ...email, starred: !email.starred } : email)
@@ -42,6 +44,11 @@ function App() {
   if (currentTab === 'starred')
     filteredEmails = getStarredEmails(filteredEmails)
 
+  if (searchInput !== ''){
+    const regex = new RegExp(searchInput,"i")
+    filteredEmails = filteredEmails.filter(email => regex.test(email.title))
+    }
+
   return (
     <div className="app">
       <header className="header">
@@ -57,7 +64,7 @@ function App() {
         </div>
 
         <div className="search">
-          <input className="search-bar" placeholder="Search mail" />
+          <Searchbar setInput={setSearchInput}/>
         </div>
       </header>
       <nav className="left-menu">

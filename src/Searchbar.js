@@ -1,0 +1,1 @@
+export const Searchbar = props => <input className="search-bar" placeholder="Search mail" onChange={e => props.setInput(e.target.value)} />
